@@ -1,17 +1,14 @@
 import "./App.css";
-import { Routes, Route } from "react-router-dom";
-import Login from "./routes/auth/Login";
-import Register from "./routes/auth/Register";
 import { Navbar } from "./components/Navbar";
+import Main from "./components/Main";
+import Footer from "./components/Footer";
 
 function App() {
     return (
         <>
             <Navbar />
-            <Routes>
-                <Route path="/login" element={<Login />} />
-                <Route path="/register" element={<Register />} />
-            </Routes>
+            <Main />
+            <Footer />
         </>
     );
 }

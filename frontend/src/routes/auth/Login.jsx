@@ -1,6 +1,6 @@
 import { useState } from "react";
 import Logo from "../../assets/logo-brand.png";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
@@ -8,17 +8,19 @@ export default function Login() {
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
-    const sendLogin = async () => {
+    const sendLogin = async (e) => {
         e.preventDefault();
         try {
             const response = await axios.post(
-                "http://127.0.0.1:8000//api/auth/login",
+                "http://127.0.0.1:8000/api/auth/login",
                 { email, password }
             );
 
             console.log("Login Successful", response);
 
-            navigate("/home");
+            localStorage.setItem("token", response.data.token);
+
+            navigate("/");
         } catch (error) {
             console.error("error", error);
         }
@@ -26,8 +28,8 @@ export default function Login() {
 
     return (
         <>
-            <div className="flex min-h-full h-screen flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8 dark:bg-gray-900">
-                <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
+            <div className="flex min-h-full h-screen flex-1 flex-col items-center justify-center lg:px-8 dark:bg-gray-900">
+                <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight dark:text-white text-gray-900">
