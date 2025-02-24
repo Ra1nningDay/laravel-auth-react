@@ -1,4 +1,5 @@
 import Logo from "../../assets/logo-brand.png";
+import { Link } from "react-router-dom";
 
 export default function Login() {
     return (
@@ -7,11 +8,6 @@ export default function Login() {
                 <div class="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6">
                         <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-                            <img
-                                alt="Your Company"
-                                src={Logo}
-                                className="mx-auto h-20 w-auto"
-                            />
                             <h2 className="mt-10 text-center text-2xl/9 font-bold tracking-tight dark:text-white text-gray-900">
                                 Sign in to your account
                             </h2>
@@ -37,7 +33,7 @@ export default function Login() {
                                             type="email"
                                             required
                                             autoComplete="email"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         />
                                     </div>
                                 </div>
@@ -53,7 +49,7 @@ export default function Login() {
                                         <div className="text-sm">
                                             <a
                                                 href="#"
-                                                className="font-semibold text-indigo-600 hover:text-indigo-500"
+                                                className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-gray-500"
                                             >
                                                 Forgot password?
                                             </a>
@@ -66,7 +62,7 @@ export default function Login() {
                                             type="password"
                                             required
                                             autoComplete="current-password"
-                                            className="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                            className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         />
                                     </div>
                                 </div>
@@ -83,12 +79,12 @@ export default function Login() {
 
                             <p className="mt-10 text-center text-sm/6 text-gray-500">
                                 Not a member?{" "}
-                                <a
-                                    href="#"
-                                    className="font-semibold text-indigo-600 hover:text-indigo-500"
+                                <Link
+                                    to="/register"
+                                    className="font-semibold text-indigo-600 hover:text-indigo-500 dark:text-gray-500"
                                 >
                                     Create your Account
-                                </a>
+                                </Link>
                             </p>
                         </div>
                     </div>

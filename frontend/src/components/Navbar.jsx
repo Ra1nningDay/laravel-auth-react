@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 
 export function Navbar() {
     return (
-        <nav className="bg-white dark:bg-gray-800 border-gray-200 z-10">
-            <div className="w-full fixed z-10 flex flex-wrap items-center justify-between mx-auto p-2">
+        <nav className="bg-white dark:bg-gray-800 fixed top-0 left-0 w-full z-50 shadow-lg">
+            <div className="flex justify-between p-3 px-6">
                 <Link
                     to="/"
                     className="flex items-center space-x-3 rtl:space-x-reverse"
