@@ -1,22 +1,38 @@
-import { useState, useEffect, useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { AuthContext } from "../contexts/AuthContext";
+import { useState, useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 
 export function Navbar() {
-    const { isLoggedIn, login, logout } = useContext(AuthContext);
+    const [isLoggedIn, setIsLoggedIn] = useState(
+        !!localStorage.getItem("token")
+    );
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
+
+    // ฟังการเปลี่ยนแปลงของ localStorage และอัปเดตสถานะ
+    useEffect(() => {
+        const checkToken = () => {
+            setIsLoggedIn(!!localStorage.getItem("token"));
+        };
+
+        window.addEventListener("storage", checkToken);
+
+        return () => {
+            window.removeEventListener("storage", checkToken);
+        };
+    }, []);
+
+    // ใช้ useEffect เพื่ออัปเดต isLoggedIn เมื่อ localStorage เปลี่ยนค่า
+    useEffect(() => {
+        setIsLoggedIn(!!localStorage.getItem("token"));
+    }, [localStorage.getItem("token")]);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
-    useEffect(() => {
-        login(!!localStorage.getItem("token"));
-    }, [localStorage.getItem("token")]);
-
     const handleLogout = () => {
-        logout();
+        localStorage.removeItem("token");
+        setIsLoggedIn(false);
         setDropdownOpen(false);
         navigate("/login");
     };

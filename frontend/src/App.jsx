@@ -7,11 +7,9 @@ import { AuthProvider } from "./contexts/AuthContext";
 function App() {
     return (
         <>
-            <AuthProvider>
-                <Navbar />
-                <Main />
-                <Footer />
-            </AuthProvider>
+            <Navbar />
+            <Main />
+            <Footer />
         </>
     );
 }

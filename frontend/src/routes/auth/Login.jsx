@@ -6,6 +6,7 @@ import axios from "axios";
 export default function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [isLoggedIn, setIsLoggedIn] = useState(false); // เพิ่ม state เพื่อติดตามการล็อกอิน
     const navigate = useNavigate();
 
     const sendLogin = async (e) => {
@@ -18,9 +19,16 @@ export default function Login() {
 
             console.log("Login Successful", response);
 
+            // ตั้งค่า token ใน localStorage
             localStorage.setItem("token", response.data.token);
 
-            navigate("/");
+            // ตั้งค่า state isLoggedIn ให้เป็น true
+            setIsLoggedIn(true);
+
+            // ใช้ setTimeout เพื่อเลื่อนการรีไดเร็ก
+            setTimeout(() => {
+                navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
+            }, 500); // หน่วงเวลา 500ms ให้รีเรนเดอร์ใหม่ก่อน
         } catch (error) {
             console.error("error", error);
         }
