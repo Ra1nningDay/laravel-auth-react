@@ -1,30 +1,23 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { AuthContext } from "../contexts/AuthContext";
 
 export function Navbar() {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
+    const { isLoggedIn, login, logout } = useContext(AuthContext);
     const [dropdownOpen, setDropdownOpen] = useState(false);
-
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // ตรวจสอบ token ใน localStorage (หรือที่ที่คุณเก็บ token)
-        const token = localStorage.getItem("token");
-        if (token) {
-            setIsLoggedIn(true);
-        } else {
-            setIsLoggedIn(false);
-        }
-    }, []);
 
     const toggleDropdown = () => {
         setDropdownOpen(!dropdownOpen);
     };
 
+    useEffect(() => {
+        login(!!localStorage.getItem("token"));
+    }, [localStorage.getItem("token")]);
+
     const handleLogout = () => {
-        // ลบ token ออกจาก localStorage และเปลี่ยนเส้นทางไปหน้า login
-        localStorage.removeItem("token");
-        setIsLoggedIn(false);
+        logout();
+        setDropdownOpen(false);
         navigate("/login");
     };
 
