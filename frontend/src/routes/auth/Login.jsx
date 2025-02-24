@@ -1,7 +1,29 @@
+import { useState } from "react";
 import Logo from "../../assets/logo-brand.png";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 export default function Login() {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+
+    const sendLogin = async () => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(
+                "http://127.0.0.1:8000//api/auth/login",
+                { email, password }
+            );
+
+            console.log("Login Successful", response);
+
+            navigate("/home");
+        } catch (error) {
+            console.error("error", error);
+        }
+    };
+
     return (
         <>
             <div className="flex min-h-full h-screen flex-1 flex-col items-center justify-center px-6 py-12 lg:px-8 dark:bg-gray-900">
@@ -15,7 +37,7 @@ export default function Login() {
 
                         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
                             <form
-                                action="#"
+                                onSubmit={sendLogin}
                                 method="POST"
                                 className="space-y-6"
                             >
@@ -33,6 +55,10 @@ export default function Login() {
                                             type="email"
                                             required
                                             autoComplete="email"
+                                            value={email}
+                                            onChange={(e) =>
+                                                setEmail(e.target.value)
+                                            }
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         />
                                     </div>
@@ -62,6 +88,10 @@ export default function Login() {
                                             type="password"
                                             required
                                             autoComplete="current-password"
+                                            value={password}
+                                            onChange={(e) =>
+                                                setPassword(e.target.value)
+                                            }
                                             className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                                         />
                                     </div>

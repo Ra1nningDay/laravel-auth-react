@@ -2,13 +2,6 @@ import Logo from "../../assets/logo-brand.png";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-const sendLogin = async () => {
-    const response = await axios.post(
-        "http://localhost:5000/api/auth/login",
-        {}
-    );
-};
-
 export default function Register() {
     return (
         <>
