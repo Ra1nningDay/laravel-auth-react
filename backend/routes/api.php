@@ -19,4 +19,6 @@ Route::prefix('auth')->group(function () {
 Route::prefix('profile')->middleware('auth:sanctum')->group(function () {
     Route::get('/', [ProfileController::class, 'show']);
     Route::put('/', [ProfileController::class, 'update']);
+    Route::post('/password-check', [ProfileController::class, 'passwordCheck']);
+    Route::put('/reset-password', [ProfileController::class, 'resetPassword']);
 });

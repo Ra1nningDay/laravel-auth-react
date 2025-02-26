@@ -5,10 +5,10 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
-    const [error, setError] = useState(""); // เพิ่ม state เพื่อติดตามข้อผิดพลาด
+    const [error, setError] = useState("");
+    const [success, setSuccess] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [registerSuccess, setRegisterSuccess] = useState(false);
     const navigate = useNavigate();
 
     const sendLogin = async (e) => {
@@ -45,7 +45,7 @@ export default function Login() {
                 pauseOnHover: true,
                 draggable: true,
             });
-            setError("Register successful! Please login.");
+            setSuccess("Register successful! Please login.");
             setTimeout(() => {
                 // sessionStorage.setItem("hasShowToast", true); // Set has show toast flag
                 sessionStorage.removeItem("registerSuccess"); // Clear register success flag
@@ -67,6 +67,11 @@ export default function Login() {
                         {error && (
                             <div className="text-center mt-6 text-white p-4 bg-red-700">
                                 {error}
+                            </div>
+                        )}
+                        {success && (
+                            <div className="text-center mt-6 text-white p-4 bg-green-700">
+                                {success}
                             </div>
                         )}
                         <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">

@@ -8,6 +8,7 @@ function Home() {
 
     useEffect(() => {
         const token = localStorage.getItem("token");
+        console.log("token:", token);
 
         if (!token) {
             navigate("/login");
@@ -29,7 +30,7 @@ function Home() {
                 sessionStorage.removeItem("loginSuccess"); // Clear login success flag
             }, 3000);
         }
-    })
+    });
 
     return (
         <>
