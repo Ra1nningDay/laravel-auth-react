@@ -11,7 +11,12 @@ function Home() {
 
         if (!token) {
             navigate("/login");
-        } else {
+        }
+    }, []);
+
+    useEffect(() => {
+        const loginSuccess = sessionStorage.getItem("loginSuccess");
+        if (loginSuccess) {
             toast.success("Welcome to the home page!", {
                 position: "top-center",
                 autoClose: 3000,
@@ -20,13 +25,15 @@ function Home() {
                 pauseOnHover: true,
                 draggable: true,
             });
+            setTimeout(() => {
+                sessionStorage.removeItem("loginSuccess"); // Clear login success flag
+            }, 3000);
         }
-    }, []);
+    })
 
     return (
         <>
             <ToastContainer />
-            <h1>hello</h1>
         </>
     );
 }

@@ -1,10 +1,11 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function Profile() {
     const [user, setUser] = useState(null);
     const [formData, setFormData] = useState({ name: "", email: "" });
+    const [isLoading, setLoading] = useState(true); // สถานะการโหลดข้อมูล
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -12,43 +13,39 @@ function Profile() {
             navigate("/login");
         } else {
             getProfile();
-            console.log(localStorage.getItem("token"));
         }
-    }, [navigate]);
+    }, []); // ดึงข้อมูลโปรไฟล์เมื่อ component ถูก mount
 
-    const getProfile = async () => {
+    const getProfile = useCallback(async () => {
         try {
             const token = localStorage.getItem("token");
-            const res = await axios.get(`http://127.0.0.1:8000/api/profile`, {
+            const res = await axios.get("http://127.0.0.1:8000/api/profile", {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
             });
-            setUser(res.data);
-            setFormData({ name: res.data.name, email: res.data.email }); //Store data that come from API Fetch
+            setUser(res.data); // ตั้งค่า user
+            setFormData({ name: res.data.name, email: res.data.email }); // ตั้งค่า formData
         } catch (error) {
-            console.error("error", error);
+            console.error("Error fetching profile:", error);
+        } finally {
+            setLoading(false); // ตั้ง isLoading เป็น false เมื่อข้อมูลโหลดเสร็จ
         }
-    };
+    }, []);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
             const token = localStorage.getItem("token");
-            await axios.put(
-                `http://127.0.0.1:8000/api/auth/profile/update`,
-                formData,
-                {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
-                }
-            );
-            setIsEditing(false);
-            getProfile();
+            await axios.put("http://127.0.0.1:8000/api/profile", formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
+            getProfile(); // รีเฟรชข้อมูลโปรไฟล์
             alert("Profile updated successfully!");
         } catch (error) {
-            console.error("error", error);
+            console.error("Error updating profile:", error);
             alert("Failed to update profile");
         }
     };
@@ -66,8 +63,12 @@ function Profile() {
                 <h1 className="text-2xl font-bold mb-6 dark:text-black">
                     Profile
                 </h1>
-                {user && (
-                    <div className="">
+                {isLoading ? (
+                    <div className="flex justify-center items-center">
+                        <div className="border-t-4 border-blue-500 border-solid rounded-full w-16 h-16 animate-spin"></div>
+                    </div>
+                ) : (
+                    user && (
                         <form onSubmit={handleSubmit}>
                             <div className="flex flex-col">
                                 <div className="mb-4">
@@ -102,7 +103,7 @@ function Profile() {
                                 Save Change
                             </button>
                         </form>
-                    </div>
+                    )
                 )}
             </div>
         </div>

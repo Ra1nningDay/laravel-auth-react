@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Logo from "../../assets/logo-brand.png";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
 
 export default function Login() {
     const [error, setError] = useState(""); // เพิ่ม state เพื่อติดตามข้อผิดพลาด
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [isLoggedIn, setIsLoggedIn] = useState(false); // เพิ่ม state เพื่อติดตามการล็อกอิน
+    const [registerSuccess, setRegisterSuccess] = useState(false);
     const navigate = useNavigate();
 
     const sendLogin = async (e) => {
@@ -22,7 +23,7 @@ export default function Login() {
 
             // ตั้งค่า token ใน localStorage
             localStorage.setItem("token", response.data.token);
-
+            sessionStorage.setItem("loginSuccess", true); // Set login success flag
             navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
         } catch (error) {
             console.error("error", error);
@@ -30,8 +31,31 @@ export default function Login() {
         }
     };
 
+    useEffect(() => {
+        const registerSuccess = sessionStorage.getItem("registerSuccess");
+
+        console.log("registerSuccess:", registerSuccess); // เพิ่ม log
+
+        if (registerSuccess) {
+            toast.success("Welcome to the home page!", {
+                position: "top-center",
+                autoClose: 3000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+            });
+            setError("Register successful! Please login.");
+            setTimeout(() => {
+                // sessionStorage.setItem("hasShowToast", true); // Set has show toast flag
+                sessionStorage.removeItem("registerSuccess"); // Clear register success flag
+            }, 3000);
+        }
+    }, []);
+
     return (
         <>
+            <ToastContainer />
             <div className="flex min-h-full h-screen flex-1 flex-col items-center justify-center lg:px-8 dark:bg-gray-900">
                 <div className="w-full bg-white rounded-lg shadow dark:border md:mt-0 sm:max-w-md xl:p-0 dark:bg-gray-800 dark:border-gray-700">
                     <div className="p-6">

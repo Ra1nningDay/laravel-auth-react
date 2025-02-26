@@ -1,14 +1,15 @@
 import Logo from "../../assets/logo-brand.png";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export default function Register() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
-    const [confirmPassword, setConfirmPassword] = useState(""); // สำหรับ confirm password
-    const [errorMessage, setErrorMessage] = useState(""); // สำหรับการแสดงข้อความผิดพลาด
+    const [confirmPassword, setConfirmPassword] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const navigate = useNavigate();
 
     // ฟังก์ชันสำหรับส่งข้อมูลไปยัง API
     const sendRegister = async (e) => {
@@ -24,11 +25,20 @@ export default function Register() {
                 { name, email, password }
             );
             console.log("Register Successful", response.data);
+            sessionStorage.setItem("registerSuccess", true);
+            navigate("/login");
         } catch (error) {
             console.error("Error during registration", error);
             setErrorMessage("Registration failed! Please try again.");
         }
     };
+
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            navigate("/");
+        }
+    }, []);
 
     return (
         <section className="bg-gray-50 dark:bg-gray-900">

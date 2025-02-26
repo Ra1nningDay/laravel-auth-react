@@ -23,7 +23,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             "name" => "sometimes|string|max:255|nullable",
-            "email" => "sometimes|email|unique:users,email",
+            "email" => "sometimes|email|exists:users,email",
         ];
     }
 }
