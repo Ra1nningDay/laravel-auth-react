@@ -2,6 +2,7 @@ import "../App.css";
 import Home from "../routes/home";
 import Login from "../routes/auth/Login";
 import Register from "../routes/auth/Register";
+import Profile from "../routes/Profile";
 import { Routes, Route } from "react-router-dom";
 
 export default function Main() {
@@ -12,6 +13,7 @@ export default function Main() {
                     <Route path="/" element={<Home />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/register" element={<Register />} />
+                    <Route path="/profile" element={<Profile />} />
                 </Routes>
             </main>
         </>

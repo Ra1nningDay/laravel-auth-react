@@ -8,19 +8,6 @@ export function Navbar() {
     const [dropdownOpen, setDropdownOpen] = useState(false);
     const navigate = useNavigate();
 
-    // ฟังการเปลี่ยนแปลงของ localStorage และอัปเดตสถานะ
-    useEffect(() => {
-        const checkToken = () => {
-            setIsLoggedIn(!!localStorage.getItem("token"));
-        };
-
-        window.addEventListener("storage", checkToken);
-
-        return () => {
-            window.removeEventListener("storage", checkToken);
-        };
-    }, []);
-
     // ใช้ useEffect เพื่ออัปเดต isLoggedIn เมื่อ localStorage เปลี่ยนค่า
     useEffect(() => {
         setIsLoggedIn(!!localStorage.getItem("token"));

@@ -4,6 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
+    const [error, setError] = useState(""); // เพิ่ม state เพื่อติดตามข้อผิดพลาด
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [isLoggedIn, setIsLoggedIn] = useState(false); // เพิ่ม state เพื่อติดตามการล็อกอิน
@@ -22,15 +23,10 @@ export default function Login() {
             // ตั้งค่า token ใน localStorage
             localStorage.setItem("token", response.data.token);
 
-            // ตั้งค่า state isLoggedIn ให้เป็น true
-            setIsLoggedIn(true);
-
-            // ใช้ setTimeout เพื่อเลื่อนการรีไดเร็ก
-            setTimeout(() => {
-                navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
-            }, 500); // หน่วงเวลา 500ms ให้รีเรนเดอร์ใหม่ก่อน
+            navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
         } catch (error) {
             console.error("error", error);
+            setError("Login failed! Please try again.");
         }
     };
 
@@ -44,8 +40,12 @@ export default function Login() {
                                 Sign in to your account
                             </h2>
                         </div>
-
-                        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+                        {error && (
+                            <div className="text-center mt-6 text-white p-4 bg-red-700">
+                                {error}
+                            </div>
+                        )}
+                        <div className="mt-4 sm:mx-auto sm:w-full sm:max-w-sm">
                             <form
                                 onSubmit={sendLogin}
                                 method="POST"
