@@ -8,11 +8,18 @@ use App\Models\User;
 class AuthService 
 {
     public function register($data){
-        return User::create([
+        $user =  User::create([
             "name" => $data['name'],
             "email" => strtolower($data['email']),
             "password" => Hash::make($data['password']),
         ]);
+        $role = Role::where('name', 'user')->first();
+
+        if (!$role) {
+            return response()->json(['message' => 'Role not found'], 404);
+        }
+
+        $user->roles()->attach($role);
     }
 
     public function login($data){
@@ -23,15 +30,18 @@ class AuthService
         }
 
         $token = $user->createToken('auth_token')->plainTextToken;
+
+        $role = $user->roles()->first();
         
         return [
             "user" => $user,
             "token" => $token,
+            "role" => $role->name,
         ];
     }
 
     public function logout() {
-        Auth::user()->token()->logout();
+        Auth::user()->currentAccessToken()->delete();
         return response()->json(["message" => "Logged Out"], 200);
     }
 }

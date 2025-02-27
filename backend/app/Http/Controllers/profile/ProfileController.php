@@ -27,9 +27,9 @@ class ProfileController extends Controller
         try {
             $data = $request->validated();
             
-            $user = $this->profileService->update($data);
+            $this->profileService->update($data);
 
-            return response()->json($user, 200);
+            return response()->json(["message" => "Profile Updated Successful"] ,200);
         } catch(Exception $e) {
             return response()->json(["message" => "Update has failed", "error" => $e->getMessage()], 500);
         }
@@ -37,33 +37,13 @@ class ProfileController extends Controller
 
     
 
-    public function passwordCheck(Request $request) {
-        $request->validate([
-            'password' => 'required|string|min:6',
-        ]);
-
+    public function passwordCheck(UpdateRequest $request) {
         try {
-            $user = Auth::user();
+            $passwordCheck = $request->validated();
 
-            if (!$user) {
-                return response()->json(["message" => "User not authenticated"], 401);
-            }
+            $data = $this->profileService->passwordCheck($passwordCheck['password'], Auth::user()->password);
 
-            $inputPassword = trim($request->password);
-            $hashedPassword = $user->password;
-
-            // Log ข้อมูลเพื่อตรวจสอบค่า
-            Log::info('Password Check:', [
-                'input_password' => $inputPassword,
-                'hashed_password' => $hashedPassword,
-                'hash_check_result' => Hash::check($inputPassword, $hashedPassword)
-            ]);
-
-            if (Hash::check($inputPassword, $hashedPassword)) {
-                return response()->json(["message" => "Password is correct", "success" => true], 200);
-            } else {
-                return response()->json(["message" => "Password is incorrect","success" => false], 401);
-            }
+            return response()->json($data, 200);
         } catch (Exception $e) {
             Log::error('Password check failed: ' . $e->getMessage());
             return response()->json(["message" => "Password check has failed", "error" => $e->getMessage()], 500);
@@ -72,16 +52,10 @@ class ProfileController extends Controller
 
 
     public function resetPassword(Request $request) {
-        $request->validate([
-            'password' => 'required|string|min:6',
-        ]);
         try {
-            $user = Auth::user();
-
-            $password = $request->password;
-
-            $user->password = Hash::make($password);
-            $user->save();
+            $data = $request->validated();
+            
+            $this->profileService->resetPassword($data);
 
             return response()->json(["message" => "Password has been reset"], 200);
         } catch(Exception $e) {

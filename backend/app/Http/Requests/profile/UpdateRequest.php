@@ -24,6 +24,7 @@ class UpdateRequest extends FormRequest
         return [
             "name" => "sometimes|string|max:255|nullable",
             "email" => "sometimes|email|exists:users,email",
+            'password' => 'sometimes|string|min:6',
         ];
     }
 }
