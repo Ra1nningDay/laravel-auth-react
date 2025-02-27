@@ -23,6 +23,7 @@ export default function Login() {
 
             // ตั้งค่า token ใน localStorage
             localStorage.setItem("token", response.data.token);
+            localStorage.setItem("role", response.data.role);
             sessionStorage.setItem("loginSuccess", true); // Set login success flag
             navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
         } catch (error) {

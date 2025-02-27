@@ -9,6 +9,7 @@ function Home() {
     useEffect(() => {
         const token = localStorage.getItem("token");
         console.log("token:", token);
+        console.log("role:", localStorage.getItem("role"));
 
         if (!token) {
             navigate("/login");
