@@ -4,6 +4,7 @@ namespace App\Services;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\Models\User;
+use App\Models\Role;
 
 class AuthService 
 {
@@ -34,9 +35,9 @@ class AuthService
         $role = $user->roles()->first();
         
         return [
-            "user" => $user,
-            "token" => $token,
-            "role" => $role->name,
+            'user' => $user,
+            'role' => $role->name,
+            'token' => $token
         ];
     }
 

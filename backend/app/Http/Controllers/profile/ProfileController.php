@@ -51,7 +51,7 @@ class ProfileController extends Controller
     }
 
 
-    public function resetPassword(Request $request) {
+    public function resetPassword(UpdateRequest $request) {
         try {
             $data = $request->validated();
             

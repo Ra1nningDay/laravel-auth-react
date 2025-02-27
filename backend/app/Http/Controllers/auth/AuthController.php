@@ -8,6 +8,7 @@ use App\Http\Requests\auth\RegisterRequest;
 use App\Services\AuthService;
 use Exception;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 class AuthController extends Controller
 {
@@ -33,13 +34,14 @@ class AuthController extends Controller
         }
     }
 
-    public function login(LoginRequest $request) {
+    public function login(LoginRequest $request): JsonResponse
+    {
         try {
             $data = $request->validated();
 
             $user = $this->authService->login($data);
 
-            return response()->json(["message" => "Login Successful", "token" => $user['token']],200);
+            return response()->json(["message" => "Login Successful", "token" => $user['token'], "role" => $user['role']],200);
         } catch(Exception $e) {
             return response()->json(["message" => "Login has failed", "error" => $e->getMessage()], 500);
         }

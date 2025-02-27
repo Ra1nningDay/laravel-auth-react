@@ -13,7 +13,7 @@ Route::get('/user', function (Request $request) {
 Route::prefix('auth')->group(function () {
     // Route::get('/profile', [AuthController::class, 'show']);
     Route::post('/register', [AuthController::class, 'register']);
-    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/login', [AuthController::class, 'login'])->name('login');
 });
 
 Route::prefix('profile')->middleware('auth:sanctum')->group(function () {

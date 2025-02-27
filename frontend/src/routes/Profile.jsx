@@ -35,7 +35,8 @@ function Profile() {
                 }
             );
             console.log(response.data);
-            if (response.data.success) {
+            console.log(response.data.success);
+            if (response.data.success === true) {
                 // หากรหัสเดิมถูกต้อง ให้ทำการเปลี่ยนรหัสใหม่
                 await axios.put(
                     "http://127.0.0.1:8000/api/profile/reset-password", // endpoint สำหรับเปลี่ยนรหัส

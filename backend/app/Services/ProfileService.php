@@ -20,9 +20,9 @@ class ProfileService
     public function passwordCheck($inputPassword, $hashedPassword) 
     {    
         if (Hash::check(trim($inputPassword), $hashedPassword)) {
-            return response()->json(["message" => "Password is correct", "success" => true], 200);
+            return ["message" => "Password is correct", "success" => true];
         } else {
-            return response()->json(["message" => "Password is incorrect","success" => false], 401);
+            return ["message" => "Password is incorrect","success" => false];
         }
     }
 
