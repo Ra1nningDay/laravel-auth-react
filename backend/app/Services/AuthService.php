@@ -21,6 +21,9 @@ class AuthService
         }
 
         $user->roles()->attach($role);
+        return [
+            "user" => $user
+        ];
     }
 
     public function login($data){

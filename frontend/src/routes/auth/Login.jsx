@@ -25,7 +25,14 @@ export default function Login() {
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.role);
             sessionStorage.setItem("loginSuccess", true); // Set login success flag
-            navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
+            // navigate("/"); // รีไดเร็กหลังจากการรีเรนเดอร์เสร็จสิ้น
+            const role = localStorage.getItem("role");
+
+            if (role === "admin") {
+                navigate("/dashboard");
+            } else {
+                navigate("/");
+            }
         } catch (error) {
             console.error("error", error);
             setError("Login failed! Please try again.");
