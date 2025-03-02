@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('posts', function (Blueprint $table) {
             $table->integer('id')->primary()->autoIncrement();
-            $table->integer('type_id');
-            $table->integer('user_id');
+            $table->integer('type_id')->unsigned()->nullable();
+            $table->integer('user_id')->unsigned()->nullable();
             $table->foreign('type_id')->references('id')->on('post_types')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->string('title', 255);
